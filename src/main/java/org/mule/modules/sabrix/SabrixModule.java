@@ -25,6 +25,10 @@ import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
 
+import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
+import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
+import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
+
 /**
  * SabrixModule
  *
@@ -45,16 +49,23 @@ public class SabrixModule
     @Configurable
     private String password;
 
+    private SabrixClient sabrixClient;
+
     /**
      * Calculate taxes using host information, transaction information, and an
      * external company id
      *
      * {@sample.xml ../../../doc/connector.xml.sample sabrix:get-taxes}
+     *
+     * @param documents
+     * @param externalCompanyId
+     * @param hostRequestInfo
+     * @return
      */
     @Processor
-    public void getTaxes()
+    public TaxResponse getTaxes(DocumentCollection documents, String externalCompanyId, HostRequestInfo hostRequestInfo)
     {
-
+        return sabrixClient.getTaxes(documents, externalCompanyId, hostRequestInfo);
     }
 
     public void setPassword(String password)
@@ -66,5 +77,7 @@ public class SabrixModule
     {
         this.username = username;
     }
+
+
 
 }
