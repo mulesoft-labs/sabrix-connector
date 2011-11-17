@@ -1,7 +1,8 @@
 Mule Sabrix Connector
 =========================
 
-The Sabrix Connector allows to calculate taxes using the Sabrix platform 
+The Sabrix Connector allows to calculate taxes using the INDIRECT TAX platform - http://onesource.thomsonreuters.com/solutions/indirect-tax/sales-use/sales-
+use-solutions. 
 
 Installation and Usage
 ----------------------

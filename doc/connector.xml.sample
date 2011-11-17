@@ -1,0 +1,15 @@
+<!-- BEGIN_INCLUDE(sabrix:get-taxes) -->
+    <sabrix:get-taxes external-company-id="#[variable:companyId]">
+      <sabrix:host-request-info>
+        <calling-client>#[variable:callingClient]</calling-client>
+      </sabrix:host-request-info>
+      <sabrix:document>
+        <sabrix:document>
+          <documentNumber>#[variable:documentNumber1]</documentNumber>
+        </sabrix:document>
+        <sabrix:document>
+        </sabrix:document>
+      </sabrix:document>
+    </sabrix:get-taxes>
+<!-- END_INCLUDE(avalara:sabrix:get-taxes) -->
+
