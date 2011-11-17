@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:tns="http://www.sabrix.com/services/taxservice/2009-12-20/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.sabrix.com/services/taxservice/2009-12-20/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.sabrix.com/services/taxservice/2009-12-20/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+			<xs:include schemaLocation="TaxServiceMessages.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="GetTaxSoapIn">
+		<wsdl:part name="parameters" element="tns:TaxRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetTaxSoapOut">
+		<wsdl:part name="parameters" element="tns:TaxResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="TaxServiceSoap">
+		<wsdl:operation name="GetTax">
+			<wsdl:input message="tns:GetTaxSoapIn"/>
+			<wsdl:output message="tns:GetTaxSoapOut"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TaxServiceSoap" type="tns:TaxServiceSoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetTax">
+			<soap:operation soapAction="http://www.sabrix.com/services/taxservice/2009-12-20/GetTax" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="TaxServiceSoap12" type="tns:TaxServiceSoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetTax">
+			<soap12:operation soapAction="http://www.sabrix.com/services/taxservice/2009-12-20/GetTax" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TaxService">
+		<wsdl:port name="TaxServiceSoap" binding="tns:TaxServiceSoap">
+			<soap:address location="http://test.mts.sabrix.com:80/mts-te/TaxService/2009-12-20"/>
+		</wsdl:port>
+		<wsdl:port name="TaxServiceSoap12" binding="tns:TaxServiceSoap12">
+			<soap:address location="http://test.mts.sabrix.com:80/mts-te/TaxService/2009-12-20"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

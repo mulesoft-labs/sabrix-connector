@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.sabrix.com/services/taxservice/2009-12-20/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ns="http://www.sabrix.com/services/taxservice/2009-12-20/"
+	targetNamespace="http://www.sabrix.com/services/taxservice/2009-12-20/"
+	elementFormDefault="qualified">
+	<xs:element name="TaxRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="HostRequestInfo" type="HostRequestInfo" minOccurs="1"
+					maxOccurs="1"/>
+				<xs:element name="ExternalCompanyId" minOccurs="1" maxOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Documents" type="DocumentCollection" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaxResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="HostRequestId"/>
+				<xs:element ref="HostRequestLoggingId"/>
+				<xs:element name="RequestStatus" type="Status">
+					<xs:annotation>
+						<xs:documentation><![CDATA[
+							This element contains the overall status of the request to which this result was generated. If the status reflects a failure or partial success it will contain
+							information about the first document in the request that failed. Failures in subsequent documents are not reflected here.
+						]]></xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TaxDocuments" type="TaxDocumentCollection" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="AccrualMethod">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AccrueSabrixAmount"/>
+			<xs:enumeration value="ReportOnly"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AddressCollection">
+		<xs:all>
+			<xs:element name="BillToAddress" type="Address" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="OrderAcceptanceAddress" type="Address" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="OrderOriginAddress" type="Address" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ShipFromAddress" type="Address" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ShipToAddress" type="Address" minOccurs="0" maxOccurs="1"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="Country" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Region" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="County" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address1" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="150"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address2" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="150"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Address3" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="150"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PostalCode" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GeoCode" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartnerNumber" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartnerName" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Addresses" type="AddressCollection"/>
+	<xs:complexType name="BuyerRegistrations">
+		<xs:sequence>
+			<xs:element name="Registration" type="Registration" minOccurs="1" maxOccurs="unbounded"
+			/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AmountType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GrossAmountBased"/>
+			<xs:enumeration value="GrossPlusTaxBased"/>
+			<xs:enumeration value="TaxAmountBased"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ChargeCollection">
+		<xs:sequence>
+			<xs:element name="Charge" id="Charges" type="Charge" minOccurs="1" maxOccurs="9"/>
+			<xs:element name="ProcessingOption" type="ProcessingOption" minOccurs="1" maxOccurs="1"
+			/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Charge">
+		<xs:sequence>
+			<xs:element name="ChargeType" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ChargeAmount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ChargeProductCode" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChargeDetailCollection">
+		<xs:sequence>
+			<xs:element name="Charges" type="ChargeDetail" maxOccurs="9"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChargeDetail">
+		<xs:sequence>
+			<xs:element name="ChargeType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ChargeTaxAmount" type="xs:decimal"/>
+			<xs:element name="ChargeTaxRate" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CompanyRole">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Seller"/>
+			<xs:enumeration value="Buyer"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CurrencyCode">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DocumentCollection">
+		<xs:sequence>
+			<xs:element name="Document" type="Document" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Document">
+		<xs:sequence>
+			<xs:element ref="DocumentNumber" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="Addresses" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Attributes" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IsAuditResult" type="xs:boolean" minOccurs="1"
+							maxOccurs="1"/>
+						<xs:element name="IsCredit" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="IsExempt" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="ExemptReason" type="ExemptReason" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="AmountType" type="AmountType" minOccurs="1"
+							maxOccurs="1"/>
+						<xs:element name="CompanyRole" type="CompanyRole" minOccurs="1"
+							maxOccurs="1"/>
+						<xs:element name="CurrencyCode" type="CurrencyCode" minOccurs="1"
+							maxOccurs="1"/>
+						<xs:element name="DocumentType" type="DocumentType" minOccurs="1"
+							maxOccurs="1"/>
+						<xs:element name="PointOfTitleTransfer" type="PointOfTitleTransfer"
+							minOccurs="0" maxOccurs="1"/>
+						<xs:element name="ReferenceDocumentInfo" type="ReferenceDocument"
+							minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Dates" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DocumentDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+						<xs:element name="FiscalDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="VendorTax" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Lines" type="LineCollection" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DocumentNumber">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="200"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:simpleType name="DocumentType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ExemptReason">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="HostRequestId">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="100"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:complexType name="HostRequestInfo">
+		<xs:sequence>
+			<xs:element name="CallingClient" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CallingSource" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CallingSystemNumber" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CallingUser" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DbVersion" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ErpVersion" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element ref="HostRequestId" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="HostRequestLoggingId" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="HostSystemNumber" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IntegrationVersion" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SdkVersion" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="HostRequestLoggingId">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="100"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:complexType name="LineCollection">
+		<xs:sequence>
+			<xs:element name="Line" type="Line" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Line">
+		<xs:sequence>
+			<xs:element ref="LineNumber" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="RelatedLineNumber" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="Addresses" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Amounts" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="GrossAmount" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="GrossPlusTaxAmount" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="TaxAmount" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ChargeCollection" type="ChargeCollection" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Attributes" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IsCredit" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="IsExempt" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="ExemptReason" type="ExemptReason" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="PointOfTitleTransfer" type="PointOfTitleTransfer"
+							minOccurs="0" maxOccurs="1"/>
+						<xs:element name="ProductCode" minOccurs="0" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PartNumber" type="PartNumber" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="PartDescription" type="PartDescription" minOccurs="0"
+							maxOccurs="1"/>
+						<xs:element name="ReferenceDocumentInfo" type="ReferenceDocument"
+							minOccurs="0" maxOccurs="1"/>
+						<xs:element name="UserAttributeContainer" type="UserAttributeContainer"
+							minOccurs="0">
+							<xs:unique name="uniqueAttributeKey">
+								<xs:selector xpath="ns:UserAttributes"/>
+								<xs:field xpath="ns:Key"/>
+							</xs:unique>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="TaxabilityInfo" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Quantity" type="Quantity" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Registrations" type="Registrations" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:nonNegativeInteger"/>
+	</xs:complexType>
+	<xs:element name="LineNumber" type="xs:nonNegativeInteger"/>
+	<xs:simpleType name="PartnerNumber">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PartNumber">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PartDescription">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PointOfTitleTransfer">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Destination"/>
+			<xs:enumeration value="Origin"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProcessingOption">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ChargeNotIncludedInAmounts"/>
+			<xs:enumeration value="ChargeIncludedInAmounts"/>
+			<xs:enumeration value="ChargeAsSeparateAuthority"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Quantity">
+		<xs:sequence>
+			<xs:element name="Amount" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="UOM" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReferenceDocument">
+		<xs:sequence>
+			<xs:element name="OriginalDocumentId" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OriginalDocumentItem" minOccurs="0" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OriginalDocumentDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="OriginalDocumentType" type="DocumentType" minOccurs="0" maxOccurs="1"
+			/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Registration">
+		<xs:sequence>
+			<xs:element name="Country" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Type" type="RegistrationType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Value" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="RegistrationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Federal"/>
+			<xs:enumeration value="Provincial"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Registrations">
+		<xs:sequence>
+			<xs:element name="BuyerRegistrations" type="BuyerRegistrations" minOccurs="0"
+				maxOccurs="1"/>
+			<xs:element name="SellerRegistrations" type="SellerRegistrations" minOccurs="0"
+				maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RelatedLineNumber" type="xs:nonNegativeInteger"/>
+	<xs:complexType name="SellerRegistrations">
+		<xs:sequence>
+			<xs:element name="Registration" type="Registration" minOccurs="1" maxOccurs="unbounded"
+			/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Status">
+		<xs:annotation>
+			<xs:documentation><![CDATA[
+			This type reflects the status of a tax calculation request. It is attached to the response at the document and request levels.
+			]]></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Success" type="SuccessType"/>
+			<xs:element name="Code" type="xs:string" minOccurs="0"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="ErrorLocationPath" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SuccessType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Success"/>
+			<xs:enumeration value="PartialSuccess"/>
+			<xs:enumeration value="Failure"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="TaxabilityInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="GlAccount" minOccurs="0" maxOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="CostCenter" minOccurs="0" maxOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="TaxDetailCollection">
+		<xs:sequence>
+			<xs:element name="TaxDetail" type="TaxDetail" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaxDetail">
+		<xs:sequence>
+			<xs:element name="AuthorityName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AuthorityType" type="xs:string"/>
+			<xs:element name="AuthorityUUID">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TaxType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EffectiveZoneLevel" type="xs:string"/>
+			<xs:element name="TaxableBasis" type="xs:decimal"/>
+			<xs:element name="TaxableCountry" type="xs:string"/>
+			<xs:element name="TaxableRegion" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="CalculatedTaxAmount" type="xs:decimal"/>
+			<xs:element name="AccrualTaxAmount" type="xs:decimal"/>
+			<xs:element name="PartnerTaxAmount" type="xs:decimal"/>
+			<xs:element name="TaxRate" type="xs:decimal"/>
+			<xs:element name="ExemptAmount" type="xs:decimal"/>
+			<xs:element name="Registrations" type="Registrations" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaxDocumentCollection">
+		<xs:sequence>
+			<xs:element name="TaxDocument" type="TaxDocument" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaxDocument">
+		<xs:sequence>
+			<xs:element ref="DocumentNumber" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="DocumentStatus" type="Status">
+				<xs:annotation>
+					<xs:documentation><![CDATA[
+						The status of the request that generated this document. See the documentation for the '<Status>/' element.
+					]]></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UseTaxInformation" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InToleranceFlag" type="xs:boolean"/>
+						<xs:element name="TolerancePercentage" type="xs:decimal"/>
+						<xs:element name="ToleranceAbsolute" type="xs:decimal"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TotalTaxAmount" type="xs:decimal"/>
+			<xs:element name="TaxLines" type="TaxLineCollection"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaxLineCollection">
+		<xs:sequence>
+			<xs:element name="TaxLine" type="TaxLine" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaxLine">
+		<xs:sequence>
+			<xs:element ref="LineNumber" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="RelatedLineNumber" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="AccrualMethod" type="AccrualMethod" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ChargeDetailCollection" type="ChargeDetailCollection" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="TaxSummary" type="TaxSummary" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ZoneTaxSummaries" type="ZoneTaxCollection" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="TaxDetails" type="TaxDetailCollection" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="Id" type="xs:nonNegativeInteger"/>
+	</xs:complexType>
+	<xs:complexType name="TaxSummary">
+		<xs:sequence>
+			<xs:element name="EffectiveTaxRate" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="CalculatedTaxAmount" type="xs:decimal"/>
+			<xs:element name="AccrualTaxAmount" type="xs:decimal"/>
+			<xs:element name="PartnerTaxAmount" type="xs:decimal"/>
+			<xs:element name="TaxableBasis" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ExemptAmount" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserAttributeContainer">
+		<xs:sequence>
+			<xs:element name="UserAttributes" nillable="true" minOccurs="0" maxOccurs="5">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Key" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:positiveInteger">
+									<xs:minInclusive value="1"/>
+									<xs:maxInclusive value="5"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Value" minOccurs="1" maxOccurs="1">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="200"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ZoneTaxCollection">
+		<xs:sequence>
+			<xs:element name="ZoneTaxSummary" type="ZoneTaxSummary" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ZoneTaxSummary">
+		<xs:sequence>
+			<xs:element name="SummarizationLevel" type="xs:string"/>
+			<xs:element name="TaxableBasis" type="xs:decimal"/>
+			<xs:element name="CalculatedTaxAmount" type="xs:decimal"/>
+			<xs:element name="AccrualTaxAmount" type="xs:decimal"/>
+			<xs:element name="PartnerTaxAmount" type="xs:decimal"/>
+			<xs:element name="TaxRate" type="xs:decimal"/>
+			<xs:element name="ExemptAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

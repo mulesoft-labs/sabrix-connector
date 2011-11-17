@@ -16,6 +16,7 @@
 
   <properties>
     <mom.version>1.1</mom.version>
+    <cxf.version>2.3.0</cxf.version>
   </properties>
 
   <dependencies>
@@ -31,6 +32,36 @@
     <developerConnection>scm:git:git@github.com:mulesoft/sabrix-connector.git</developerConnection>
     <url>http://github.com/mulesoft/sabrix-connector</url>
   </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>cxf-codegen-plugin</artifactId>
+        <groupId>org.apache.cxf</groupId>
+        <version>${cxf.version}</version>
+        <executions>
+          <execution>
+            <id>generate-sources</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <extension>true</extension>
+              <wsdlOptions>
+                <wsdlOption>
+                  <wsdl>${basedir}/src/main/resources/TaxService.wsdl</wsdl>
+                  <autoNameResolution>true</autoNameResolution>
+                </wsdlOption>
+              </wsdlOptions>
+            </configuration>
+            <goals>
+              <goal>wsdl2java</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+  </build>
 
   <repositories>
     <repository>
