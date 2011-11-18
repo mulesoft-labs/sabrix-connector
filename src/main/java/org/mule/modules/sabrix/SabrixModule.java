@@ -25,9 +25,21 @@ import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
 
+import ar.com.zauber.commons.mom.MapObjectMapper;
+import ar.com.zauber.commons.mom.MapObjectMappers;
+import ar.com.zauber.commons.mom.style.impl.CXFStyle;
+
 import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
 import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
 import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+
+import org.apache.commons.lang.Validate;
 
 /**
  * SabrixModule
@@ -49,7 +61,22 @@ public class SabrixModule
     @Configurable
     private String password;
 
+    /**
+     * The Sabrix
+     */
+    @Configurable
+    private String endpoint;
+
     private SabrixClient sabrixClient;
+
+    private final MapObjectMapper mom;
+    {
+        mom = MapObjectMappers.defaultWithPackage("com.sabrix.services")
+            .withSetterStyle(CXFStyle.STYLE)
+            .withInterceptor(new CollectionInliner())
+            .build();
+    }
+
 
     /**
      * Calculate taxes using host information, transaction information, and an
@@ -57,15 +84,20 @@ public class SabrixModule
      *
      * {@sample.xml ../../../doc/connector.xml.sample sabrix:get-taxes}
      *
-     * @param documents
-     * @param externalCompanyId
-     * @param hostRequestInfo
-     * @return
+     * @param documents TODO
+     * @param externalCompanyId TODO
+     * @param hostRequestInfo TODO
+     * @return TODO
      */
     @Processor
-    public TaxResponse getTaxes(DocumentCollection documents, String externalCompanyId, HostRequestInfo hostRequestInfo)
+    public TaxResponse getTaxes(List<Map<String, Object>> documents,
+                                String externalCompanyId,
+                                Map<String, Object> hostRequestInfo)
     {
-        return sabrixClient.getTaxes(documents, externalCompanyId, hostRequestInfo);
+        return sabrixClient.getTaxes(
+            (DocumentCollection) mom.unmap(documents, DocumentCollection.class),
+            externalCompanyId,
+            (HostRequestInfo) mom.unmap(hostRequestInfo, HostRequestInfo.class));
     }
 
     public void setPassword(String password)
@@ -78,6 +110,24 @@ public class SabrixModule
         this.username = username;
     }
 
+    public void setEndpoint(String endpoint)
+    {
+        this.endpoint = endpoint;
+    }
 
+    @PostConstruct
+    public void init() {
+        if(sabrixClient == null) {
+            Validate.notNull(password);
+            Validate.notNull(username);
+            Validate.notNull(endpoint);
+            sabrixClient = new CxfSabrixClient(endpoint, username, password);
+        }
+    }
+
+    public void setSabrixClient(SabrixClient sabrixClient)
+    {
+        this.sabrixClient = sabrixClient;
+    }
 
 }

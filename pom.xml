@@ -15,8 +15,8 @@
   <name>Mule Sabrix Connector</name>
 
   <properties>
-    <mom.version>1.1</mom.version>
-    <commons.ws.security.version>1.0-SNAPSHOT</commons.ws.security.version>
+    <mom.version>1.2-SNAPSHOT</mom.version>
+    <commons.wsse.version>1.0-SNAPSHOT</commons.wsse.version>
     <cxf.version>2.3.0</cxf.version>
   </properties>
 
@@ -28,8 +28,8 @@
     </dependency>
     <dependency>
       <groupId>com.zaubersoftware</groupId>
-      <artifactId>commons-ws-security</artifactId>
-      <version>${commons.ws.security.version}</version>
+      <artifactId>commons-wsse</artifactId>
+      <version>${commons.wsse.version}</version>
     </dependency>
   </dependencies>
 

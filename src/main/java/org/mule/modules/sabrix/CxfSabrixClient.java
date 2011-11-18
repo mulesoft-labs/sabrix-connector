@@ -19,6 +19,11 @@ import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
 import com.sabrix.services.taxservice._2009_12_20.TaxService;
 import com.sabrix.services.taxservice._2009_12_20.TaxServiceSoap;
 
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang.Validate;
+
+
 public class CxfSabrixClient implements SabrixClient
 {
 
@@ -26,17 +31,24 @@ public class CxfSabrixClient implements SabrixClient
     private final String username;
     private final String password;
 
-    public CxfSabrixClient(@NotEmpty String endpoint, @NotEmpty  String username, @NotEmpty  String password)
+    public CxfSabrixClient(@NotNull String endpoint, @NotNull String username, @NotNull String password)
     {
+        Validate.notEmpty(endpoint);
+        Validate.notEmpty(username);
+        Validate.notEmpty(password);
         this.endpoint = endpoint;
         this.username = username;
         this.password = password;
     }
 
-    public TaxResponse getTaxes(@NonNull final DocumentCollection documents_,
-                                @NonNull final String externalCompanyId_,
-                                @NonNull final HostRequestInfo hostRequestInfo_)
+    public TaxResponse getTaxes(@NotNull final DocumentCollection documents_,
+                                @NotNull final String externalCompanyId_,
+                                @NotNull final HostRequestInfo hostRequestInfo_)
     {
+        Validate.notNull(documents_);
+        Validate.notNull(externalCompanyId_);
+        Validate.notNull(hostRequestInfo_);
+
         return getConnection().getTax(new TaxRequest(){{
                 this.documents = documents_;
                 this.setExternalCompanyId(externalCompanyId_);
@@ -50,7 +62,7 @@ public class CxfSabrixClient implements SabrixClient
             .withServiceType(TaxService.class)
             .withClasspathWsdl("TaxService.wsdl")
             .withEndpoint(endpoint)
-            .withBasicAuth(username, password)
+            .withUsernameTokenAuth(username, password)
             .build();
     }
 
