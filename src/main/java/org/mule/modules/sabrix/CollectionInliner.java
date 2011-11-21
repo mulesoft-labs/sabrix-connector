@@ -49,9 +49,6 @@ class CollectionInliner implements MapObjectMapperInterceptor
     @Override
     public Object map(Object value, Applicable<Object, Object> proceed)
     {
-        if(value != null && isCollection(value.getClass())) {
-            throw new NotImplementedException();
-        }
         throw new NotImplementedException();
     }
 

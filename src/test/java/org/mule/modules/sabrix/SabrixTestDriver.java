@@ -10,9 +10,9 @@
 
 package org.mule.modules.sabrix;
 
+import java.util.Collections;
 import java.util.HashMap;
-
-import javax.xml.bind.annotation.XmlElement;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +38,9 @@ public class SabrixTestDriver
 
     @Test
     public void getTaxesAnswersNonNullListOfResults() {
-        module.getTaxes(null, "ZQ-Zuora-Dev", new HashMap<String, Object>(){{
+        module.getTaxes(Collections.<Map<String,Object>>singletonList(new HashMap<String, Object>(){{
+
+        }}), "ZQ-Zuora-Dev", new HashMap<String, Object>(){{
             put("callingClient", "");
             put("callingSource", "");
             put("callingSystemNumber", "");

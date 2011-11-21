@@ -10,17 +10,22 @@
 
 package org.mule.modules.sabrix;
 
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.refEq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
 import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
-import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unchecked"})
 public class SabrixUnitTest
 {
     private SabrixModule module;
@@ -38,21 +43,27 @@ public class SabrixUnitTest
     @Test
     public void getTaxesAnswersNonNullListOfResults() {
 
-        module.getTaxes(null, "ZQ-Zuora-Dev", new HashMap<String, Object>(){{
-            put("callingClient", "");
-            put("callingSource", "");
-            put("callingSystemNumber", "");
-            put("callingUser", "");
-            put("dbVersion", "");
-            put("erpVersion", "");
-            put("hostRequestId", "");
-            put("hostRequestLoggingId", "");
-            put("hostSystemNumber", "");
-            put("integrationVersion", "");
-            put("sdkVersion", "");
-        }});
+        module.getTaxes(Arrays.<Map<String, Object>> asList(),
+            "ZQ-Zuora-Dev",
+            new HashMap<String, Object>() {{
+                put("callingClient", "Foo");
+                put("callingSource", "");
+                put("callingSystemNumber", "");
+                put("callingUser", "");
+                put("dbVersion", "");
+                put("erpVersion", 15);
+            }});
 
-        verify(client).getTaxes(refEq(new DocumentCollection()), eq("ZQ-Zuora-Dev"), refEq(new HostRequestInfo()));
+        verify(client).getTaxes(refEq(new DocumentCollection(){{
+            getDocument();
+        }}), eq("ZQ-Zuora-Dev"), refEq(new HostRequestInfo(){{
+            this.callingClient = "Foo";
+            this.callingSource = "";
+            this.callingSystemNumber = "";
+            this.callingUser = "";
+            this.dbVersion = "";
+            this.erpVersion = "15";
+        }}));
     }
 }
 
