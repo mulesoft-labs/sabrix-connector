@@ -8,7 +8,7 @@
  * LICENSE.txt file.
  */
 
-package org.mule.modules.sabrix;
+package org.mule.modules.sabrix.internal;
 
 import ar.com.zauber.commons.mom.MapObjectMapperInterceptor;
 
@@ -20,16 +20,16 @@ import net.sf.staccatocommons.defs.Applicable2;
 
 import org.apache.commons.lang.StringUtils;
 
-class CollectionInliner implements MapObjectMapperInterceptor
+public class CollectionInliner implements MapObjectMapperInterceptor
 {
     @Override
+    @SuppressWarnings({"unchecked", "serial"})
     public Object unmap(final Object value, final Class<?> type, Applicable2<Object, Class<?>, Object> proceed)
     {
         if (value instanceof List && isCollection(type)) {
             return proceed.apply(new HashMap() {{
                     put(propertyName(type), value);
-            }
-           }, type);
+            }}, type);
         }
         return proceed.apply(value, type);
     }

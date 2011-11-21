@@ -36,7 +36,8 @@ public class SabrixTestDriver
     private SabrixModule module;
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
         module = new SabrixModule();
         module.setPassword(System.getenv("sabrixPassword"));
         module.setUsername(System.getenv("sabrixUsername"));
@@ -46,7 +47,8 @@ public class SabrixTestDriver
 
     @Test
     @SuppressWarnings("unchecked")
-    public void getTaxesAnswersNonNullListOfResults() {
+    public void getTaxesAnswersNonNullListOfResults()
+    {
         TaxResponse taxResponse = module.getTaxes(Collections.<Map<String,Object>>singletonList(new HashMap<String, Object>(){
         {
             put("documentNumber", "1");

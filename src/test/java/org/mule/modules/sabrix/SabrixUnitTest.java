@@ -32,16 +32,17 @@ public class SabrixUnitTest
     private SabrixClient client;
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
         module = new SabrixModule();
         client = mock(SabrixClient.class);
         module.setSabrixClient(client);
         module.init();
     }
 
-
     @Test
-    public void getTaxesAnswersNonNullListOfResults() {
+    public void getTaxesAnswersNonNullListOfResults()
+    {
 
         module.getTaxes(Arrays.<Map<String, Object>> asList(),
             "ZQ-Zuora-Dev",
