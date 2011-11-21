@@ -10,10 +10,18 @@
 
 package org.mule.modules.sabrix;
 
+import com.sabrix.services.taxservice._2009_12_20.AddressCollection;
+import com.sabrix.services.taxservice._2009_12_20.SuccessType;
+import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
+
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,28 +45,53 @@ public class SabrixTestDriver
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void getTaxesAnswersNonNullListOfResults() {
-        module.getTaxes(Collections.<Map<String,Object>>singletonList(new HashMap<String, Object>(){{
+        TaxResponse taxResponse = module.getTaxes(Collections.<Map<String,Object>>singletonList(new HashMap<String, Object>(){
+        {
+            put("documentNumber", "1");
+            put("addresses", new AddressCollection());
+            put("attributes", new HashMap(){{
+                put("isAuditResult", false);
+                put("isCredit", false);
+                put("isExempt", false);
+                put("exemptReason", "XX");
+                put("amountType", "TAX_AMOUNT_BASED");
+                put("companyRole", "BUYER");
+                put("currencyCode", "USD");
+                put("documentType", "foo");
+            }});
+
+            put("vendorTax", 100);
+            put("lines", Arrays.asList(new HashMap(){{
+                put("quantity", new HashMap(){{
+                    put("UOM", "g");
+                    put("amount", 10);
+                }});
+                put("lineNumber", BigInteger.TEN);
+                put("amounts", new HashMap(){{
+                    put("grossAmount", 1);
+                    put("taxAmount", 10);
+                }});
+            }}));
+            put("dates", new HashMap(){{
+                put("documentDate", new Date());
+                put("fiscalDate", new Date());
+            }});
 
         }}), "ZQ-Zuora-Dev", new HashMap<String, Object>(){{
-            put("callingClient", "");
-            put("callingSource", "");
-            put("callingSystemNumber", "");
-            put("callingUser", "");
-            put("dbVersion", "");
-            put("erpVersion", "");
-            put("hostRequestId", "");
-            put("hostRequestLoggingId", "");
-            put("hostSystemNumber", "");
-            put("integrationVersion", "");
-            put("sdkVersion", "");
+            put("callingClient", "Mule");
+            put("callingSource", "Source");
+            put("callingSystemNumber", "459");
+            put("callingUser", "Mule");
+            put("dbVersion", "1");
+            put("erpVersion", "1");
+            put("hostRequestId", "1");
+            put("hostRequestLoggingId", "2");
+            put("hostSystemNumber", "1");
+            put("integrationVersion", "1");
+            put("sdkVersion", "1");
         }});
+        assertTrue(taxResponse.getRequestStatus().getSuccess() == SuccessType.SUCCESS);
     }
 }
-
-
-
-
-
-
-
