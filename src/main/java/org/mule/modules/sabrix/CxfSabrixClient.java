@@ -19,17 +19,38 @@ import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
 import com.sabrix.services.taxservice._2009_12_20.TaxService;
 import com.sabrix.services.taxservice._2009_12_20.TaxServiceSoap;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.logging.Level;
+
 import javax.validation.constraints.NotNull;
+import javax.xml.ws.BindingProvider;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.interceptor.AbstractLoggingInterceptor;
+import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
+import org.apache.cxf.message.Message;
+import org.apache.cxf.phase.Phase;
 
-
+/**
+ * {@link CxfSabrixClient}
+ * @author flbulgarelli
+ */
 public class CxfSabrixClient implements SabrixClient
 {
 
     private final String endpoint;
     private final String username;
     private final String password;
+    private TaxServiceSoap connection;
 
     public CxfSabrixClient(@NotNull String endpoint, @NotNull String username, @NotNull String password)
     {
@@ -39,6 +60,18 @@ public class CxfSabrixClient implements SabrixClient
         this.endpoint = endpoint;
         this.username = username;
         this.password = password;
+        this.initConnection();
+    }
+
+    private void initConnection()
+    {
+        connection = ConnectionBuilder.fromPortType(TaxServiceSoap.class)
+        .withServiceType(TaxService.class)
+        .withClasspathWsdl("TaxService.wsdl")
+        .withEndpoint(endpoint)
+        .withUsernameTokenAuth(username, password)
+        .build();
+
     }
 
     public TaxResponse getTaxes(@NotNull final DocumentCollection documents_,
@@ -50,7 +83,7 @@ public class CxfSabrixClient implements SabrixClient
         Validate.notNull(hostRequestInfo_);
 
         return getConnection().getTax(new TaxRequest(){{
-                this.documents = documents_;
+                this.setDocuments(documents_);
                 this.setExternalCompanyId(externalCompanyId_);
                 this.setHostRequestInfo(hostRequestInfo_);
             }});
@@ -58,12 +91,7 @@ public class CxfSabrixClient implements SabrixClient
 
     protected TaxServiceSoap getConnection()
     {
-        return ConnectionBuilder.fromPortType(TaxServiceSoap.class)
-            .withServiceType(TaxService.class)
-            .withClasspathWsdl("TaxService.wsdl")
-            .withEndpoint(endpoint)
-            .withUsernameTokenAuth(username, password)
-            .build();
+        return connection;
     }
 
 

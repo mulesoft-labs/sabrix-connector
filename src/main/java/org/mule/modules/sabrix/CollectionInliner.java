@@ -18,7 +18,6 @@ import java.util.List;
 import net.sf.staccatocommons.defs.Applicable;
 import net.sf.staccatocommons.defs.Applicable2;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 
 class CollectionInliner implements MapObjectMapperInterceptor
@@ -49,7 +48,7 @@ class CollectionInliner implements MapObjectMapperInterceptor
     @Override
     public Object map(Object value, Applicable<Object, Object> proceed)
     {
-        throw new NotImplementedException();
+        return proceed.apply(value);
     }
 
     protected String propertyName(final Class<?> type)
