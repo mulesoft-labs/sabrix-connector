@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:spring="http://www.springframework.org/schema/beans"
+  xmlns:sabrix="http://www.mulesoft.org/schema/mule/sabrix"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
+        http://www.mulesoft.org/schema/mule/sabrix http://www.mulesoft.org/schema/mule/sabrix/1.0/mule-sabrix.xsd">
+
+
+  <sabrix:config username="${sabrixUsername}" password="${sabrixPassword}"
+    endpoint="https://test.mts.sabrix.com/mts-te/TaxService/2009-12-20" />
+
+  <flow name="GetTaxes">
+    <sabrix:get-taxes externalCompanyId="#[variable:companyId]">
+      <sabrix:documents>
+        <sabrix:document>
+          <documentNumber>#[variable:documentNumber1]</documentNumber>
+        </sabrix:document>
+        <sabrix:document>
+          <documentNumber>#[variable:documentNumber2]</documentNumber>
+        </sabrix:document>
+      </sabrix:documents>
+      <sabrix:host-request-info>
+        <calling-client>#[variable:callingClient]</calling-client>
+      </sabrix:host-request-info>
+    </sabrix:get-taxes>
+  </flow>
+  
+  
+  
+  
+</mule>

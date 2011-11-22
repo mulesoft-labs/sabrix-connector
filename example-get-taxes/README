@@ -1,0 +1,11 @@
+HOW TO DEMO
+===========
+
+* With a Mule container: deploy your the app and hit the following urls:
+   * http://localhost:9090/workday-demo-get-all-applicants
+      You should get the full list of applicants
+   * http://localhost:9090/workday-demo-get-single-applicant?employeeId=<ID>&employeeIdType=<ID_TYPE>
+      You should get the details for the given account id. eg:
+      http://localhost:9090/workday-demo-get-single-applicant?employeeId=A01002&employeeIdType=Applicant_ID
+               
+* Without a Mule container: run the tests in WorkdayFunctionalTestDriver 
