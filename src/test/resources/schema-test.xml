@@ -21,8 +21,8 @@
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
         http://www.mulesoft.org/schema/mule/sabrix http://www.mulesoft.org/schema/mule/sabrix/1.0/mule-sabrix.xsd">
 
-  <sabrix:config username="${sabrix.username}" password="${sabrix.password}"
-    endpoint="${sabrix.endpoint}" />
+  <sabrix:config username="user" password="pass"
+    endpoint="http://localhost" />
 
   <flow name="GetTaxes">
     <sabrix:get-taxes externalCompanyId="#[variable:companyId]">
