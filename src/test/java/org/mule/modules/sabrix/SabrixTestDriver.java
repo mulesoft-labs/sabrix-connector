@@ -1,5 +1,5 @@
 /**
- * Mule Workday Cloud Connector
+ * Mule Sabrix Cloud Connector
  *
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
  *

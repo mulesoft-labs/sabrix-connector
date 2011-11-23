@@ -1,5 +1,5 @@
 /**
- * Mule Workday Cloud Connector
+ * Mule Sabrix Cloud Connector
  *
  * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
  *
@@ -14,6 +14,12 @@
 
 package org.mule.modules.sabrix;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.lang.Validate;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
@@ -26,13 +32,6 @@ import ar.com.zauber.commons.mom.style.impl.CXFStyle;
 import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
 import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
 import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.apache.commons.lang.Validate;
 
 /**
  * SabrixModule
@@ -77,10 +76,12 @@ public class SabrixModule
      *
      * {@sample.xml ../../../doc/connector.xml.sample sabrix:get-taxes}
      *
-     * @param documents TODO
-     * @param externalCompanyId TODO
-     * @param hostRequestInfo TODO
-     * @return TODO
+     * @param documents The list of documents that are required to get their respective 
+     *                  taxes.
+     * @param externalCompanyId The company id.
+     * @param hostRequestInfo Technical information of the client that is trying to 
+     *                        get this information.
+     * @return The {@link TaxResponse}
      */
     @Processor
     public TaxResponse getTaxes(List<Map<String, Object>> documents,
