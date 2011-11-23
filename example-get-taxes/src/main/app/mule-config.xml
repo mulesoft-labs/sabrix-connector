@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:spring="http://www.springframework.org/schema/beans"
   xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
@@ -7,22 +6,21 @@
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/3.2/mule-scripting.xsd
-        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.1/mule.xsd
         http://www.mulesoft.org/schema/mule/sabrix http://www.mulesoft.org/schema/mule/sabrix/1.0/mule-sabrix.xsd">
+
 
 
   <sabrix:config username="${sabrixUsername}" password="${sabrixPassword}"
     endpoint="${sabrixEndpoint}" />
 
   <flow name="GetTaxes">
+  
 	<sabrix:get-taxes externalCompanyId="${sabrixExternalCompanyId}">
 	    <sabrix:documents>
 	        <sabrix:document>
 	            <documentNumber>1</documentNumber>
-	            <addresses>#[groovy: [
-	                billToAddress : [ country : "United States" ] 
-	                ] ]
-	            </addresses>
+	            <addresses>#[groovy: [:]]</addresses>
 	            <attributes>#[groovy: [
 	                isAuditResult : false ,
 	                isCredit : false ,
@@ -31,19 +29,21 @@
 	                amountType : "TAX_AMOUNT_BASED" ,
 	                companyRole : "BUYER" ,
 	                currencyCode : "USD" ,
-	                documentType : "foo" ] ]
-	            </attributes>
+	                documentType : "foo" ] ]</attributes>
 	            <vendorTax>100</vendorTax>
-	            <lines>#[groovy: [
-	                [   quantity : [
-	                        UOM : "g" ,
-	                        amount : 10 ] ,
-	                    lineNumber : BigInteger.TEN ,
-	                    amounts : [
-	                        grossAmount:  1 ,
-	                        taxAmount: 10 ] 
-	                ]  ]
-	            </lines>
+	            <lines>#[groovy: [[
+                     quantity : [
+                       UOM : "g" ,
+	                   amount : 10 ] ,
+	                 lineNumber : 10 ,
+	                  amounts : [
+                        grossAmount:  1,
+	                    taxAmount: 10 ] 
+	                ]]]</lines>
+                 <dates>#[groovy:[
+                    documentDate: new Date(),
+                    fiscalDate: new Date()
+                 ]]</dates> 
 	        </sabrix:document>
 	    </sabrix:documents>
 	    <sabrix:host-request-info>

@@ -1,28 +1,10 @@
 <!-- BEGIN_INCLUDE(sabrix:get-taxes) -->
-  <sabrix:get-taxes externalCompanyId="#[variable:companyId]">
-      <sabrix:documents>
-        <sabrix:document>
-          <documentNumber>#[variable:documentNumber1]</documentNumber>
-        </sabrix:document>
-        <sabrix:document>
-          <documentNumber>#[variable:documentNumber2]</documentNumber>
-        </sabrix:document>
-      </sabrix:documents>
-      <sabrix:host-request-info>
-        <callingClient>#[variable:callingClient]</callingClient>
-      </sabrix:host-request-info>
-    </sabrix:get-taxes>
-<!-- END_INCLUDE(avalara:sabrix:get-taxes) -->
-
-<!-- BEGIN_INCLUDE(sabrix:get-taxes2) -->
-<sabrix:get-taxes externalCompanyId="ZQ-Zuora-Dev">
-    <sabrix:documents>
+<sabrix:documents>
         <sabrix:document>
             <documentNumber>1</documentNumber>
             <addresses>#[groovy: [
                 billToAddress : [ country : "United States" ] 
-                ] ]
-            </addresses>
+                ] ]</addresses>
             <attributes>#[groovy: [
                 isAuditResult : false ,
                 isCredit : false ,
@@ -31,8 +13,7 @@
                 amountType : "TAX_AMOUNT_BASED" ,
                 companyRole : "BUYER" ,
                 currencyCode : "USD" ,
-                documentType : "foo" ] ]
-            </attributes>
+                documentType : "foo" ] ]</attributes>
             <vendorTax>100</vendorTax>
             <lines>#[groovy: [
                 [   quantity : [
@@ -40,10 +21,9 @@
                         amount : 10 ] ,
                     lineNumber : BigInteger.TEN ,
                     amounts : [
-                        grossAmount :  1 ,
-                        taxAmount : 10 ] 
-                ]  ]
-            </lines>
+                        grossAmount:  1 ,
+                        taxAmount: 10 ] 
+                ]]]</lines>
         </sabrix:document>
     </sabrix:documents>
     <sabrix:host-request-info>
@@ -59,6 +39,6 @@
         <integrationVersion>1</integrationVersion>
         <sdkVersion>1</sdkVersion>
     </sabrix:host-request-info>
-</sabrix:get-taxes>
-<!-- END_INCLUDE(avalara:sabrix:get-taxes2) -->
+</sabrix:get-taxes>	
+<!-- END_INCLUDE(avalara:sabrix:get-taxes) -->
 
