@@ -75,6 +75,7 @@ public class SabrixModule
      * external company id
      *
      * {@sample.xml ../../../doc/connector.xml.sample sabrix:get-taxes}
+     * {@sample.xml ../../../doc/connector.xml.sample sabrix:get-taxes2}
      *
      * @param documents The list of documents that are required to get their respective 
      *                  taxes.

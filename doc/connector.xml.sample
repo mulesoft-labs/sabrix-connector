@@ -9,8 +9,56 @@
         </sabrix:document>
       </sabrix:documents>
       <sabrix:host-request-info>
-        <calling-client>#[variable:callingClient]</calling-client>
+        <callingClient>#[variable:callingClient]</callingClient>
       </sabrix:host-request-info>
     </sabrix:get-taxes>
 <!-- END_INCLUDE(avalara:sabrix:get-taxes) -->
+
+<!-- BEGIN_INCLUDE(sabrix:get-taxes2) -->
+<sabrix:get-taxes externalCompanyId="ZQ-Zuora-Dev">
+    <sabrix:documents>
+        <sabrix:document>
+            <documentNumber>1</documentNumber>
+            <addresses>#[groovy: [
+                billToAddress : [ country : "United States" ] 
+                ] ]
+            </addresses>
+            <attributes>#[groovy: [
+                isAuditResult : false ,
+                isCredit : false ,
+                isExempt : false ,
+                exemptReason : "XX" ,
+                amountType : "TAX_AMOUNT_BASED" ,
+                companyRole : "BUYER" ,
+                currencyCode : "USD" ,
+                documentType : "foo" ] ]
+            </attributes>
+            <vendorTax>100</vendorTax>
+            <lines>#[groovy: [
+                [   quantity : [
+                        UOM : "g" ,
+                        amount : 10 ] ,
+                    lineNumber : BigInteger.TEN ,
+                    amounts : [
+                        grossAmount :  1 ,
+                        taxAmount : 10 ] 
+                ]  ]
+            </lines>
+        </sabrix:document>
+    </sabrix:documents>
+    <sabrix:host-request-info>
+        <callingClient>Mule</callingClient>
+        <callingSource>Source</callingSource>
+        <callingSystemNumber>459</callingSystemNumber>
+        <callingUser>Mule</callingUser>
+        <dbVersion>1</dbVersion>
+        <erpVersion>1</erpVersion>
+        <hostRequestId>1</hostRequestId>
+        <hostRequestLoggingId>2</hostRequestLoggingId>
+        <hostSystemNumber>1</hostSystemNumber>
+        <integrationVersion>1</integrationVersion>
+        <sdkVersion>1</sdkVersion>
+    </sabrix:host-request-info>
+</sabrix:get-taxes>
+<!-- END_INCLUDE(avalara:sabrix:get-taxes2) -->
 

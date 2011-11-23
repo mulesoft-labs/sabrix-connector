@@ -2,33 +2,64 @@
 
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:spring="http://www.springframework.org/schema/beans"
+  xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
   xmlns:sabrix="http://www.mulesoft.org/schema/mule/sabrix"
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/3.2/mule-scripting.xsd
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
         http://www.mulesoft.org/schema/mule/sabrix http://www.mulesoft.org/schema/mule/sabrix/1.0/mule-sabrix.xsd">
 
 
   <sabrix:config username="${sabrixUsername}" password="${sabrixPassword}"
-    endpoint="https://test.mts.sabrix.com/mts-te/TaxService/2009-12-20" />
+    endpoint="${sabrixEndpoint}" />
 
   <flow name="GetTaxes">
-    <sabrix:get-taxes externalCompanyId="#[variable:companyId]">
-      <sabrix:documents>
-        <sabrix:document>
-          <documentNumber>#[variable:documentNumber1]</documentNumber>
-        </sabrix:document>
-        <sabrix:document>
-          <documentNumber>#[variable:documentNumber2]</documentNumber>
-        </sabrix:document>
-      </sabrix:documents>
-      <sabrix:host-request-info>
-        <calling-client>#[variable:callingClient]</calling-client>
-      </sabrix:host-request-info>
-    </sabrix:get-taxes>
+	<sabrix:get-taxes externalCompanyId="${sabrixExternalCompanyId}">
+	    <sabrix:documents>
+	        <sabrix:document>
+	            <documentNumber>1</documentNumber>
+	            <addresses>#[groovy: [
+	                billToAddress : [ country : "United States" ] 
+	                ] ]
+	            </addresses>
+	            <attributes>#[groovy: [
+	                isAuditResult : false ,
+	                isCredit : false ,
+	                isExempt : false ,
+	                exemptReason : "XX" ,
+	                amountType : "TAX_AMOUNT_BASED" ,
+	                companyRole : "BUYER" ,
+	                currencyCode : "USD" ,
+	                documentType : "foo" ] ]
+	            </attributes>
+	            <vendorTax>100</vendorTax>
+	            <lines>#[groovy: [
+	                [   quantity : [
+	                        UOM : "g" ,
+	                        amount : 10 ] ,
+	                    lineNumber : BigInteger.TEN ,
+	                    amounts : [
+	                        grossAmount:  1 ,
+	                        taxAmount: 10 ] 
+	                ]  ]
+	            </lines>
+	        </sabrix:document>
+	    </sabrix:documents>
+	    <sabrix:host-request-info>
+	        <callingClient>Mule</callingClient>
+	        <callingSource>Source</callingSource>
+	        <callingSystemNumber>459</callingSystemNumber>
+	        <callingUser>Mule</callingUser>
+	        <dbVersion>1</dbVersion>
+	        <erpVersion>1</erpVersion>
+	        <hostRequestId>1</hostRequestId>
+	        <hostRequestLoggingId>2</hostRequestLoggingId>
+	        <hostSystemNumber>1</hostSystemNumber>
+	        <integrationVersion>1</integrationVersion>
+	        <sdkVersion>1</sdkVersion>
+	    </sabrix:host-request-info>
+	</sabrix:get-taxes>
   </flow>
-  
-  
-  
   
 </mule>
