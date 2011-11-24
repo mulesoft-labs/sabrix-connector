@@ -20,18 +20,36 @@ import net.sf.staccatocommons.defs.Applicable2;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * {@link MapObjectMapperInterceptor} that allows to wrap lists into
+ * nested .*Collection elements in sabrix soap dtos when necessary
+ *
+ * @author flbulgarelli
+ */
 public class CollectionInliner implements MapObjectMapperInterceptor
 {
     @Override
-    @SuppressWarnings({"unchecked", "serial"})
     public Object unmap(final Object value, final Class<?> type, Applicable2<Object, Class<?>, Object> proceed)
     {
-        if (value instanceof List && isCollection(type)) {
-            return proceed.apply(new HashMap() {{
-                    put(propertyName(type), value);
-            }}, type);
+        if (sholdWrap(value, type))
+        {
+            return proceed.apply(wrap(value, type), type);
         }
         return proceed.apply(value, type);
+    }
+
+    @SuppressWarnings({ "unchecked", "serial" })
+    protected HashMap wrap(final Object value, final Class<?> type)
+    {
+        return new HashMap() { {
+                put(propertyName(type), value);
+        } };
+    }
+
+    @SuppressWarnings("unchecked")
+    protected boolean sholdWrap(final Object value, final Class<?> type)
+    {
+        return value instanceof List && isCollection(type);
     }
 
     private boolean isCollection(final Class<?> type)

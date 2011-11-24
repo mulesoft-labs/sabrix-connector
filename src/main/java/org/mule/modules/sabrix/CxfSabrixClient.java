@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.Validate;
 
 /**
- * {@link CxfSabrixClient}
+ * Sabrix Client that uses CXF-generated ports
  * @author flbulgarelli
  */
 public class CxfSabrixClient implements SabrixClient
@@ -65,11 +65,11 @@ public class CxfSabrixClient implements SabrixClient
         Validate.notNull(externalCompanyId_);
         Validate.notNull(hostRequestInfo_);
 
-        return getConnection().getTax(new TaxRequest(){{
+        return getConnection().getTax(new TaxRequest() { {
                 this.setDocuments(documents_);
                 this.setExternalCompanyId(externalCompanyId_);
                 this.setHostRequestInfo(hostRequestInfo_);
-            }});
+            } } );
     }
 
     protected TaxServiceSoap getConnection()

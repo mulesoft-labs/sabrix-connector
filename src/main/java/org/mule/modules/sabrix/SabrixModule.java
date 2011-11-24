@@ -14,12 +14,6 @@
 
 package org.mule.modules.sabrix;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.apache.commons.lang.Validate;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
@@ -33,8 +27,17 @@ import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
 import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
 import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 /**
- * SabrixModule
+ * <a href="http://onesource.thomsonreuters.com/solutions/indirect-tax/sales-use/sales-use-solutions/">Indirect Tax</a>
+ * is a software Tax solution, previously and better known as Sabrix, which exposes a single operation
+ * to calculates taxes for a given transaction.
+ *
+ * This connector lets Mule users to consume that service.
  *
  * @author flbulgarelli
  */
@@ -75,12 +78,11 @@ public class SabrixModule
      * external company id
      *
      * {@sample.xml ../../../doc/connector.xml.sample sabrix:get-taxes}
-     * {@sample.xml ../../../doc/connector.xml.sample sabrix:get-taxes2}
      *
-     * @param documents The list of documents that are required to get their respective 
+     * @param documents The list of documents that are required to get their respective
      *                  taxes.
      * @param externalCompanyId The company id.
-     * @param hostRequestInfo Technical information of the client that is trying to 
+     * @param hostRequestInfo Technical information of the client that is trying to
      *                        get this information.
      * @return The {@link TaxResponse}
      */
@@ -111,11 +113,10 @@ public class SabrixModule
     }
 
     @PostConstruct
-    public void init() {
-        if(sabrixClient == null) {
-            Validate.notNull(password);
-            Validate.notNull(username);
-            Validate.notNull(endpoint);
+    public void init()
+    {
+        if (sabrixClient == null)
+        {
             sabrixClient = new CxfSabrixClient(endpoint, username, password);
         }
     }

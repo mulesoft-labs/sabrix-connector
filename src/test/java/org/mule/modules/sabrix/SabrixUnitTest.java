@@ -25,7 +25,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-@SuppressWarnings({"serial", "unchecked"})
+@SuppressWarnings({"serial", "unchecked" })
 public class SabrixUnitTest
 {
     private SabrixModule module;
@@ -46,25 +46,25 @@ public class SabrixUnitTest
 
         module.getTaxes(Arrays.<Map<String, Object>> asList(),
             "ZQ-Zuora-Dev",
-            new HashMap<String, Object>() {{
+            new HashMap<String, Object>() { {
                 put("callingClient", "Foo");
                 put("callingSource", "");
                 put("callingSystemNumber", "");
                 put("callingUser", "");
                 put("dbVersion", "");
                 put("erpVersion", 15);
-            }});
+            } } );
 
-        verify(client).getTaxes(refEq(new DocumentCollection(){{
+        verify(client).getTaxes(refEq(new DocumentCollection() { {
             getDocument();
-        }}), eq("ZQ-Zuora-Dev"), refEq(new HostRequestInfo(){{
+        } } ), eq("ZQ-Zuora-Dev"), refEq(new HostRequestInfo() { {
             this.callingClient = "Foo";
             this.callingSource = "";
             this.callingSystemNumber = "";
             this.callingUser = "";
             this.dbVersion = "";
             this.erpVersion = "15";
-        }}));
+        } } ));
     }
 }
 

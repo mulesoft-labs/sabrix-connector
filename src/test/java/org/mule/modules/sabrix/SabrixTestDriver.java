@@ -49,11 +49,11 @@ public class SabrixTestDriver
     @SuppressWarnings("unchecked")
     public void getTaxesAnswersNonNullListOfResults()
     {
-        TaxResponse taxResponse = module.getTaxes(Collections.<Map<String,Object>>singletonList(new HashMap<String, Object>(){
-        {
+        TaxResponse taxResponse = module.getTaxes(
+            Collections.<Map<String, Object>> singletonList(new HashMap<String, Object>() { {
             put("documentNumber", "1");
             put("addresses", new AddressCollection());
-            put("attributes", new HashMap(){{
+            put("attributes", new HashMap() { {
                 put("isAuditResult", false);
                 put("isCredit", false);
                 put("isExempt", false);
@@ -62,26 +62,26 @@ public class SabrixTestDriver
                 put("companyRole", "BUYER");
                 put("currencyCode", "USD");
                 put("documentType", "foo");
-            }});
+            } });
 
             put("vendorTax", 100);
-            put("lines", Arrays.asList(new HashMap(){{
-                put("quantity", new HashMap(){{
+            put("lines", Arrays.asList(new HashMap() { {
+                put("quantity", new HashMap() { {
                     put("UOM", "g");
                     put("amount", 10);
-                }});
+                } });
                 put("lineNumber", BigInteger.TEN);
-                put("amounts", new HashMap(){{
+                put("amounts", new HashMap() { {
                     put("grossAmount", 1);
                     put("taxAmount", 10);
-                }});
-            }}));
-            put("dates", new HashMap(){{
+                } });
+            } }));
+            put("dates", new HashMap() { {
                 put("documentDate", new Date());
                 put("fiscalDate", new Date());
-            }});
+            } });
 
-        }}), "ZQ-Zuora-Dev", new HashMap<String, Object>(){{
+        } }), "ZQ-Zuora-Dev", new HashMap<String, Object>() { {
             put("callingClient", "Mule");
             put("callingSource", "Source");
             put("callingSystemNumber", "459");
@@ -93,7 +93,7 @@ public class SabrixTestDriver
             put("hostSystemNumber", "1");
             put("integrationVersion", "1");
             put("sdkVersion", "1");
-        }});
+        } });
         assertTrue(taxResponse.getRequestStatus().getSuccess() == SuccessType.SUCCESS);
     }
 }

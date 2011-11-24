@@ -15,6 +15,11 @@ import org.mule.tck.FunctionalTestCase;
 
 import org.junit.Test;
 
+/**
+ * Test for schema parsing
+ *
+ * @author flbulgarelli
+ */
 public class SabrixSchemaTest extends FunctionalTestCase
 {
     @Override
