@@ -17,7 +17,7 @@ package org.mule.modules.sabrix;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
-import org.mule.modules.sabrix.internal.CollectionInliner;
+import org.mule.modules.util.internal.CollectionInliner;
 
 import ar.com.zauber.commons.mom.MapObjectMapper;
 import ar.com.zauber.commons.mom.MapObjectMappers;
