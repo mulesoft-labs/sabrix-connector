@@ -14,21 +14,21 @@
   <name>Mule Sabrix Connector</name>
 
   <properties>
-    <mom.version>1.2.1</mom.version>
-    <commons.wsse.version>1.0-beta-1</commons.wsse.version>
+    <mule.module.utils.version>1.0-SNAPSHOT</mule.module.utils.version>
+    <commons.ws.version>1.0.1</commons.ws.version>
     <cxf.version>2.3.0</cxf.version>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>com.zaubersoftware</groupId>
-      <artifactId>mom</artifactId>
-      <version>${mom.version}</version>
+      <groupId>org.mule.modules</groupId>
+      <artifactId>mule-modules-utils</artifactId>
+      <version>${mule.module.utils.version}</version>
     </dependency>
     <dependency>
       <groupId>com.zaubersoftware</groupId>
-      <artifactId>commons-wsse</artifactId>
-      <version>${commons.wsse.version}</version>
+      <artifactId>commons-ws</artifactId>
+      <version>${commons.ws.version}</version>
     </dependency>
   </dependencies>
 

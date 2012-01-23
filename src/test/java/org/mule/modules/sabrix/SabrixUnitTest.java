@@ -10,13 +10,8 @@
 
 package org.mule.modules.sabrix;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.refEq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
-import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
-import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,6 +19,9 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
+import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
 
 @SuppressWarnings({"serial", "unchecked" })
 public class SabrixUnitTest

@@ -14,23 +14,22 @@
 
 package org.mule.modules.sabrix;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
 import org.mule.modules.sabrix.internal.CollectionInliner;
 
-import ar.com.zauber.commons.mom.MapObjectMapper;
-import ar.com.zauber.commons.mom.MapObjectMappers;
-import ar.com.zauber.commons.mom.style.impl.CXFStyle;
-
 import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
 import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
 import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
+import com.zauberlabs.commons.mom.MapObjectMapper;
+import com.zauberlabs.commons.mom.MapObjectMappers;
+import com.zauberlabs.commons.mom.style.impl.JaxbStyle;
 
 /**
  * <a href="http://onesource.thomsonreuters.com/solutions/indirect-tax/sales-use/sales-use-solutions/">Indirect Tax</a>
@@ -67,7 +66,7 @@ public class SabrixModule
     private final MapObjectMapper mom;
     {
         mom = MapObjectMappers.defaultWithPackage("com.sabrix.services")
-            .withSetterStyle(CXFStyle.STYLE)
+            .withSetterStyle(JaxbStyle.STYLE)
             .withInterceptor(new CollectionInliner())
             .build();
     }

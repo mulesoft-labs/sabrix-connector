@@ -10,7 +10,9 @@
 
 package org.mule.modules.sabrix;
 
-import ar.com.zauber.commons.ws.connection.ConnectionBuilder;
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang.Validate;
 
 import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
 import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
@@ -18,10 +20,7 @@ import com.sabrix.services.taxservice._2009_12_20.TaxRequest;
 import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
 import com.sabrix.services.taxservice._2009_12_20.TaxService;
 import com.sabrix.services.taxservice._2009_12_20.TaxServiceSoap;
-
-import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang.Validate;
+import com.zauberlabs.commons.ws.connection.ConnectionBuilder;
 
 /**
  * Sabrix Client that uses CXF-generated ports

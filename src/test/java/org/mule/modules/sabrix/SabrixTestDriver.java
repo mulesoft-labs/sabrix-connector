@@ -10,9 +10,7 @@
 
 package org.mule.modules.sabrix;
 
-import com.sabrix.services.taxservice._2009_12_20.AddressCollection;
-import com.sabrix.services.taxservice._2009_12_20.SuccessType;
-import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
+import static org.junit.Assert.*;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -21,9 +19,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.sabrix.services.taxservice._2009_12_20.AddressCollection;
+import com.sabrix.services.taxservice._2009_12_20.SuccessType;
+import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
 
 /**
  * Integration test for Sabrix tax service
