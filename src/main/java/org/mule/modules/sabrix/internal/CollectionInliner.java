@@ -10,8 +10,6 @@
 
 package org.mule.modules.sabrix.internal;
 
-import ar.com.zauber.commons.mom.MapObjectMapperInterceptor;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +17,8 @@ import net.sf.staccatocommons.defs.Applicable;
 import net.sf.staccatocommons.defs.Applicable2;
 
 import org.apache.commons.lang.StringUtils;
+
+import com.zauberlabs.commons.mom.MapObjectMapperInterceptor;
 
 /**
  * {@link MapObjectMapperInterceptor} that allows to wrap lists into

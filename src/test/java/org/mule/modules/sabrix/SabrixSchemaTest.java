@@ -11,9 +11,8 @@
 
 package org.mule.modules.sabrix;
 
-import org.mule.tck.FunctionalTestCase;
-
 import org.junit.Test;
+import org.mule.tck.FunctionalTestCase;
 
 /**
  * Test for schema parsing

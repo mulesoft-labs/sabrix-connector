@@ -10,11 +10,11 @@
 
 package org.mule.modules.sabrix;
 
+import javax.validation.constraints.NotNull;
+
 import com.sabrix.services.taxservice._2009_12_20.DocumentCollection;
 import com.sabrix.services.taxservice._2009_12_20.HostRequestInfo;
 import com.sabrix.services.taxservice._2009_12_20.TaxResponse;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Client to interact with Sabrix service
