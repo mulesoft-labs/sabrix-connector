@@ -9,7 +9,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-    <mule.version>3.2.0</mule.version>
+    <mule.version>3.8.0</mule.version>
     <mule.devkit.version>LATEST</mule.devkit.version>
     <junit.version>4.8.2</junit.version>
     <mule.sabrix.version>1.0-SNAPSHOT</mule.sabrix.version>
@@ -84,8 +84,7 @@
             </goals>
             <configuration>
               <tasks>
-                <copy file="${project.build.directory}/${artifactId}.zip"
-                  todir="${env.MULE_HOME}/apps" overwrite="true" />
+                <copy file="${project.build.directory}/${artifactId}.zip" todir="${env.MULE_HOME}/apps" overwrite="true"/>
               </tasks>
             </configuration>
           </execution>
